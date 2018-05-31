@@ -1,4 +1,4 @@
-FROM php:7-apache-jessie
+FROM php:7.1-apache-jessie
 #MAINTAINER porchn <pichai.chin@gmail.com>
 
 ENV TZ=Asia/Bangkok
@@ -13,26 +13,27 @@ COPY ./index.php /var/www/html/
 RUN echo 'ServerName localhost' >> /etc/apache2/apache2.conf
 
 RUN apt-get update && apt-get install -y \
-    libfreetype6-dev \
-    libjpeg62-turbo-dev \
-    libmcrypt-dev \
-    libpng-dev \
-    libmagickwand-dev \
-    libmemcached-dev \
-    libssl-dev \
-    libmcrypt-dev \
-    libz-dev \
-    libicu-dev \
-    libcurl4-openssl-dev \
-    libc-client-dev \
-    libkrb5-dev \
-    libpq-dev \
-    && apt-get clean \
-    && rm -r /var/lib/apt/lists/*
+        libfreetype6-dev \
+        libjpeg62-turbo-dev \
+        libmcrypt-dev \
+        libpng-dev \
+        libmagickwand-dev \
+        libmemcached-dev \
+        libssl-dev \
+        libmcrypt-dev \
+        libz-dev \
+        libicu-dev \
+        libcurl4-openssl-dev \
+        libc-client-dev \
+        libkrb5-dev \
+        libpq-dev
 
+        # libpng12-dev \
+        # libxml2-dev \
+        # libbz2-dev
 RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-configure imap --with-imap-ssl --with-kerberos \
-    && docker-php-ext-install -j$(nproc) gd iconv mcrypt mysqli soap zip intl json mbstring imap curl
+    && docker-php-ext-install -j$(nproc) gd iconv mcrypt mysqli soap zip intl json mbstring imap curl xml zlib
 ##  && docker-php-ext-install -j$(nproc) gd iconv mcrypt mysqli mysqlnd openssl odbc pdo_mysql soap zip zlib intl json mbstring
 
 # Xdebug
